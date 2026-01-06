@@ -1,5 +1,7 @@
 package net.itssteven.unhinged_goose;
 
+import net.itssteven.unhinged_goose.item.ModFoodProperties;
+import net.itssteven.unhinged_goose.item.ModItems;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -25,9 +27,13 @@ public class UnhingedGoose {
 
     public UnhingedGoose(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
+
         modEventBus.addListener(this::commonSetup);
 
         NeoForge.EVENT_BUS.register(this);
+
+        ModItems.register(modEventBus);
+
 
         modEventBus.addListener(this::addCreative);
 
