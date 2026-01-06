@@ -1,0 +1,13 @@
+{
+  "itemGroup.unhingedgoose": "Example Mod Tab",
+  "block.unhingedgoose.example_block": "Example Block",
+  "item.unhingedgoose.example_item": "Example Item",
+
+  "unhingedgoose.configuration.title": "Unhinged Goose Configs",
+  "unhingedgoose.configuration.section.unhingedgoose.common.toml": "Unhinged Goose Configs",
+  "unhingedgoose.configuration.section.unhingedgoose.common.toml.title": "Unhinged Goose Configs",
+  "unhingedgoose.configuration.items": "Item List",
+  "unhingedgoose.configuration.logDirtBlock": "Log Dirt Block",
+  "unhingedgoose.configuration.magicNumberIntroduction": "Magic Number Text",
+  "unhingedgoose.configuration.magicNumber": "Magic Number"
+}
