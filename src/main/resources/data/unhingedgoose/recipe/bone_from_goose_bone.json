@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "unhingedgoose:goose_bone"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:bone"
+  }
+}

@@ -1,5 +1,8 @@
 {
   "item.unhingedgoose.goose_bone": "Goose Bone",
   "item.unhingedgoose.goose_wings": "Goose Wings",
-  "item,unhingedgoose.cooked_goose_wings": "Cooked Goose Wings"
+  "item.unhingedgoose.cooked_goose_wings": "Cooked Goose Wings",
+  "creativetab.unhingedgoose.unhingedggoose_items": "Unhinged Goose Items",
+  "block.unhingedgoose.nether_goose_head": "Nether Goose Head",
+  "item.unhingedgoose.nether_goose": "Nether Goose"
 }

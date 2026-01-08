@@ -17,6 +17,9 @@ public class ModItems {
 
     public static final DeferredItem<Item> COOKED_GOOSE_WINGS = ITEMS.register("cooked_goose_wings",
             () -> new Item(new Item.Properties().food(ModFoodProperties.COOKED_GOOSE_WINGS)));
+
+    public static final DeferredItem<Item> NETHER_GOOSE = ITEMS.register("nether_goose",
+            () -> new Item(new Item.Properties()));
     //some bullshit
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "unhingedgoose:block/nether_goose_head"
+    },
+    "facing=south": {
+      "model": "unhingedgoose:block/nether_goose_head",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "unhingedgoose:block/nether_goose_head",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "unhingedgoose:block/nether_goose_head",
+      "y": 270
+    }
+  }
+}

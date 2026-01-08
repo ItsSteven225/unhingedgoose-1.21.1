@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "minecraft:planks"
+    },
+    "B": {
+      "item": "unhingedgoose:nether_goose"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "unhingedgoose:nether_goose_head"
+  }
+}

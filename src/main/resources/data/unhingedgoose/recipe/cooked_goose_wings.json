@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "experience": 0.35,
+  "cookingtime": 200,
+  "ingredient": {
+    "item": "unhingedgoose:goose_wings"
+  },
+  "result": {
+    "count": 1,
+    "id": "unhingedgoose:cooked_goose_wings"
+  }
+}

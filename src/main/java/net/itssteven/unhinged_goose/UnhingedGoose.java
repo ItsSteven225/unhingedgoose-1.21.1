@@ -1,5 +1,7 @@
 package net.itssteven.unhinged_goose;
 
+import net.itssteven.unhinged_goose.block.ModBlocks;
+import net.itssteven.unhinged_goose.item.ModCreativeTab;
 import net.itssteven.unhinged_goose.item.ModFoodProperties;
 import net.itssteven.unhinged_goose.item.ModItems;
 import org.slf4j.Logger;
@@ -33,6 +35,8 @@ public class UnhingedGoose {
         NeoForge.EVENT_BUS.register(this);
 
         ModItems.register(modEventBus);
+        ModCreativeTab.register(modEventBus);
+        ModBlocks.register(modEventBus);
 
 
         modEventBus.addListener(this::addCreative);
