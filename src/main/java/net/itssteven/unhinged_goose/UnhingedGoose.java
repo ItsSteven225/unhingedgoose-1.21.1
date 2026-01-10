@@ -5,6 +5,7 @@ import net.itssteven.unhinged_goose.entity.ModEntities;
 import net.itssteven.unhinged_goose.item.ModCreativeTab;
 import net.itssteven.unhinged_goose.item.ModFoodProperties;
 import net.itssteven.unhinged_goose.item.ModItems;
+import net.itssteven.unhinged_goose.sound.ModSounds;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -39,6 +40,7 @@ public class UnhingedGoose {
         ModCreativeTab.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModEntities.register(modEventBus);
+        ModSounds.register(modEventBus);
 
 
         modEventBus.addListener(this::addCreative);

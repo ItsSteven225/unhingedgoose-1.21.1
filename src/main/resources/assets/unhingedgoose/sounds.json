@@ -1,0 +1,31 @@
+{
+  "entity.goose.idle": {
+    "subtitle": "goose.subtitle.idle",
+    "sounds": [
+      "unhingedgoose:goose_idle1",
+      "unhingedgoose:goose_idle2",
+      "unhingedgoose:goose_idle3"
+    ]
+  },
+
+  "entity.goose.hurt": {
+    "subtitle": "goose.subtitle.hurt",
+    "sounds": [
+      "unhingedgoose:goose_hurt"
+    ]
+  },
+
+  "entity.goose.death": {
+    "subtitle": "goose.subtitle.death",
+    "sounds": [
+      "unhingedgoose:goose_death"
+    ]
+  },
+
+  "entity.goose.alert": {
+    "subtitle": "goose.subtitle.alert",
+    "sounds": [
+      "unhingedgoose:goose_alert"
+    ]
+  }
+}
