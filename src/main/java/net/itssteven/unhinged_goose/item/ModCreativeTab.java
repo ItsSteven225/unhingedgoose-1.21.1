@@ -25,6 +25,7 @@ public class ModCreativeTab {
                         output.accept(ModItems.GOOSE_BONE);
                         output.accept(ModItems.NETHER_GOOSE);
                         output.accept(ModBlocks.NETHER_GOOSE_HEAD);
+                        output.accept(ModItems.GOOSE_SPAWN_EGG);
                         //shit
                     }).build());
     //bullshit

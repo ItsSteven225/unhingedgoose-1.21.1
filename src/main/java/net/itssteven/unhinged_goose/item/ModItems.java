@@ -1,8 +1,10 @@
 package net.itssteven.unhinged_goose.item;
 
 import net.itssteven.unhinged_goose.UnhingedGoose;
+import net.itssteven.unhinged_goose.entity.ModEntities;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -20,6 +22,9 @@ public class ModItems {
 
     public static final DeferredItem<Item> NETHER_GOOSE = ITEMS.register("nether_goose",
             () -> new Item(new Item.Properties()));
+
+    public static final DeferredItem<Item> GOOSE_SPAWN_EGG = ITEMS.register("goose_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.GOOSE, 0xFFECECEC, 0xFFF29F05, new Item.Properties()));
     //some bullshit
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

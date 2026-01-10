@@ -1,6 +1,9 @@
 package net.itssteven.unhinged_goose;
 
+import net.itssteven.unhinged_goose.entity.ModEntities;
+import net.itssteven.unhinged_goose.entity.client.GooseRenderer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -24,7 +27,9 @@ public class UnhingedGooseClient {
 
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
-        // Some client setup code
+
+        EntityRenderers.register(ModEntities.GOOSE.get(), GooseRenderer::new);
+
         UnhingedGoose.LOGGER.info("HELLO FROM CLIENT SETUP");
         UnhingedGoose.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
     }

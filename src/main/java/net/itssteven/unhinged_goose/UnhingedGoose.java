@@ -1,6 +1,7 @@
 package net.itssteven.unhinged_goose;
 
 import net.itssteven.unhinged_goose.block.ModBlocks;
+import net.itssteven.unhinged_goose.entity.ModEntities;
 import net.itssteven.unhinged_goose.item.ModCreativeTab;
 import net.itssteven.unhinged_goose.item.ModFoodProperties;
 import net.itssteven.unhinged_goose.item.ModItems;
@@ -37,6 +38,7 @@ public class UnhingedGoose {
         ModItems.register(modEventBus);
         ModCreativeTab.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModEntities.register(modEventBus);
 
 
         modEventBus.addListener(this::addCreative);

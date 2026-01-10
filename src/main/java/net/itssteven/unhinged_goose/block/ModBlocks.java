@@ -18,7 +18,9 @@ public class ModBlocks {
             DeferredRegister.createBlocks(UnhingedGoose.MOD_ID);
     //blocks
     public static final DeferredBlock<Block> NETHER_GOOSE_HEAD = registerBlock("nether_goose_head",
-            () -> new NethergooseheadBlock(BlockBehaviour.Properties.of().noOcclusion()));
+            () -> new NethergooseheadBlock(BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .destroyTime(0.3F)));
     //things
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCKS.register(name, block);

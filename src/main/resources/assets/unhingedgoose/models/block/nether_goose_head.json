@@ -1,8 +1,8 @@
 {
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
-    "ambientocclusion": false,
 	"texture_size": [64, 64],
+    "ambientocclusion": false,
 	"textures": {
 		"0": "unhingedgoose:block/nether_goose_head",
 		"particle": "unhingedgoose:block/nether_goose_head"
@@ -78,7 +78,8 @@
 			"scale": [0.5, 0.5, 0.5]
 		},
 		"gui": {
-			"rotation": [0, 130, 0]
+			"rotation": [0, 130, 0],
+			"scale": [0.7, 0.7, 0.7]
 		},
 		"head": {
 			"translation": [0, 8.25, -9.75]
