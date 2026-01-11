@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -19,6 +20,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.player.Player;
@@ -75,7 +77,7 @@ public class GooseEntity extends Animal {
 
     private static final EntityDataAccessor<Integer> VARIANT =
             SynchedEntityData.defineId(GooseEntity.class, EntityDataSerializers.INT);
-//something about animations
+    //something about animations
     public final AnimationState swimAnimationState = new AnimationState();
     public final AnimationState floatIdleAnimationState = new AnimationState();
     public final AnimationState floatAttackAnimationState = new AnimationState();
@@ -91,6 +93,7 @@ public class GooseEntity extends Animal {
         this.setPathfindingMalus(PathType.DANGER_FIRE, -1.0F);
         this.setPathfindingMalus(PathType.DAMAGE_OTHER, -1.0F);
     }
+
 
     @Override
     protected void registerGoals() {
@@ -116,9 +119,9 @@ public class GooseEntity extends Animal {
     public static AttributeSupplier.Builder createAttributes() {
         return Animal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 8.0F)
-                .add(Attributes.MOVEMENT_SPEED, (double)0.25F)
-                .add(Attributes.ATTACK_DAMAGE, 3.0F)
-                .add(Attributes.FOLLOW_RANGE, 30D);
+                .add(Attributes.MOVEMENT_SPEED, (double) 0.25F)
+                .add(Attributes.ATTACK_DAMAGE, (double) 3.0F)
+                .add(Attributes.FOLLOW_RANGE, 15D);
     }
 
     @Override
@@ -129,40 +132,8 @@ public class GooseEntity extends Animal {
     @Override
     public void tick() {
         super.tick();
-        //protect baby logic
-        if (!this.level().isClientSide && !this.isBaby()) {
-            Player player = this.level().getNearestPlayer(this, 5.0F);
 
-            if (player != null && isProtectingBaby(player)) {
-
-                if (this.getTarget() != null) return;
-
-                this.getNavigation().stop();
-                this.setDeltaMovement(0, this.getDeltaMovement().y, 0);
-                this.getLookControl().setLookAt(player, 30.0F, 30.0F);
-
-                if (warningTickTimer > 0) {
-                    warningTickTimer--;
-                    return;
-                }
-
-                if (warningSoundCount < 3) {
-                    this.playSound(ModSounds.GOOSE_ALERT.get(), 1.0F, 1.0F);
-                    warningSoundCount++;
-                    warningTickTimer = 50;
-                }
-                else {
-                    this.setTarget(player);
-                    warningSoundCount = 0;
-                }
-            } else {
-                warningSoundCount = 0;
-                warningTickTimer = 0;
-            }
-        }
-        //animation
         if (this.level().isClientSide) {
-
             boolean inWater = this.isInWater();
             boolean moving = this.getDeltaMovement().horizontalDistanceSqr() > 0.001D;
             boolean attacking = this.attackAnimationTimeout > 0;
@@ -174,8 +145,10 @@ public class GooseEntity extends Animal {
             this.flyAnimationState.stop();
             this.attackAnimationState.stop();
 
-
-            if (inWater) {
+            if (flying) {
+                this.flyAnimationState.startIfStopped(this.tickCount);
+            }
+            else if (inWater) {
                 if (attacking) {
                     this.floatAttackAnimationState.startIfStopped(this.tickCount);
                 } else if (moving) {
@@ -183,38 +156,60 @@ public class GooseEntity extends Animal {
                 } else {
                     this.floatIdleAnimationState.startIfStopped(this.tickCount);
                 }
-                return;
             }
-
-            if (flying) {
-                this.flyAnimationState.startIfStopped(this.tickCount);
-                return;
-            }
-
-            if (attacking) {
+            else if (attacking) {
                 this.attackAnimationState.startIfStopped(this.tickCount);
             }
+
+            return;
         }
-        //nether trans XdsxDXdxXDxdX
-        if (!this.level().isClientSide) {
-            this.setupAnimationState();
 
-            boolean inNether = this.level().dimension() == Level.NETHER;
-            boolean hasEffect = this.hasEffect(MobEffects.FIRE_RESISTANCE);
 
-            if (inNether && hadEffectBefore && !hasEffect) {
-                transformIntoNetherGoose();
+        boolean inNether = this.level().dimension() == Level.NETHER;
+        boolean hasEffect = this.hasEffect(MobEffects.FIRE_RESISTANCE);
+        if (inNether && hadEffectBefore && !hasEffect) {
+            transformIntoNetherGoose();
+        }
+        hadEffectBefore = hasEffect;
+
+        if (!this.isBaby()) {
+
+            if (this.getTarget() != null) {
+                warningSoundCount = 0;
+                warningTickTimer = 0;
+                return;
             }
-            hadEffectBefore = hasEffect;
-        }
-    }
 
+            Player player = this.level().getNearestPlayer(this, 5.0F);
+
+            if (player != null && isProtectingBaby(player)) {
+                this.getNavigation().stop();
+                this.getLookControl().setLookAt(player, 30.0F, 30.0F);
+
+                if (warningTickTimer > 0) {
+                    warningTickTimer--;
+                } else if (warningSoundCount < 3) {
+                    this.playSound(ModSounds.GOOSE_ALERT.get(), 1.0F, 1.0F);
+                    warningSoundCount++;
+                    warningTickTimer = 40;
+                } else {
+                    this.setTarget(player);
+                    this.setAggressive(true);
+                }
+            } else {
+                warningSoundCount = 0;
+                warningTickTimer = 0;
+            }
+        }
+
+        this.setupAnimationState();
+    }
     @Override
     public @Nullable AgeableMob getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
         GooseEntity baby = ModEntities.GOOSE.get().create(level);
 
         if (baby != null) {
-            baby.parentUUID = this.getUUID(); // este es el padre
+            baby.parentUUID = this.getUUID();
             baby.setVariant(this.getVariant());
         }
         return baby;
@@ -226,16 +221,18 @@ public class GooseEntity extends Animal {
         } else {
             this.attackAnimationState.stop();
         }
-
     }
 
     @Override
     public boolean doHurtTarget(Entity target) {
-        boolean result = super.doHurtTarget(target);
-        if (result) {
-            this.playSound(ModSounds.GOOSE_DEATH.get(), 1.0F, 1.0F);
+        float damage = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+        boolean flag = target.hurt(this.damageSources().mobAttack(this), damage);
+
+        if (flag) {
+            this.playSound(ModSounds.GOOSE_HURT.get(), 1.0F, 1.0F);
+            this.level().broadcastEntityEvent(this, (byte) 4);
         }
-        return result;
+        return flag;
     }
 
     @Override
@@ -253,24 +250,25 @@ public class GooseEntity extends Animal {
 
         if (this.isInWater()) {
 
-            this.moveRelative(0.08F, travelVector);
+            this.moveRelative(0.06F, travelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
+
             Vec3 motion = this.getDeltaMovement();
 
             this.setDeltaMovement(
-                    motion.x * 0.7D,
-                    motion.y,
-                    motion.z * 0.7D
+                    motion.x * 0.9D,
+                    motion.y * 0.9D,
+                    motion.z * 0.9D
             );
 
-            if (this.getDeltaMovement().y < 0) {
-                this.setDeltaMovement(this.getDeltaMovement().add(0, 0.02D, 0));
+            if (motion.y < 0) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0, 0.005D, 0));
             }
 
             return;
         }
 
-        if (this.isAlive() && !this.onGround() && this.getDeltaMovement().y < 0) {
+        if (!this.onGround() && this.getDeltaMovement().y < 0) {
             this.setDeltaMovement(this.getDeltaMovement().multiply(1.0D, 0.85D, 1.0D));
         }
 
@@ -305,12 +303,20 @@ public class GooseEntity extends Animal {
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Variant", this.getTypeVariant());
+
+        if (this.parentUUID != null) {
+            compound.putUUID("ParentUUID", this.parentUUID);
+        }
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.entityData.set(VARIANT, compound.getInt("Variant"));
+
+        if (compound.hasUUID("ParentUUID")) {
+            this.parentUUID = compound.getUUID("ParentUUID");
+        }
     }
 
     @Override
@@ -320,6 +326,7 @@ public class GooseEntity extends Animal {
         this.setVariant(variant);
         return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
     }
+
     //SOUNDS YAY
     @Override
     protected SoundEvent getAmbientSound() {
@@ -334,5 +341,13 @@ public class GooseEntity extends Animal {
     @Override
     protected SoundEvent getDeathSound() {
         return ModSounds.GOOSE_DEATH.get();
+    }
+
+    @Override
+    public boolean canAttack(LivingEntity target) {
+        if (target instanceof Player && !this.isBaby()) {
+            return true;
+        }
+        return super.canAttack(target);
     }
 }

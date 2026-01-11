@@ -64,18 +64,22 @@ public class GooseModel<T extends GooseEntity> extends HierarchicalModel<T> {
         this.applyHeadRotation(netHeadYaw, headPitch);
 
         this.animate(entity.flyAnimationState, GooseAnimations.GOOSE_FLAP, ageInTicks, 1F);
-        this.animateWalk(GooseAnimations.GOOSE_WALK, limbSwing, limbSwingAmount, 2f, 2.5f);
+
         this.animate(entity.attackAnimationState, GooseAnimations.GOOSE_ATTACK, ageInTicks, 1f);
 
         if (!inWater) {
             this.animateWalk(GooseAnimations.GOOSE_WALK, limbSwing, limbSwingAmount, 2f, 2.5f);
         }
+
         if (inWater) {
-            this.leg1.xRot = 0.0F;
+
             this.leg0.xRot = 0.0F;
+            this.leg1.xRot = 0.0F;
+
+            this.animate(entity.swimAnimationState, GooseAnimations.GOOSE_SWIM, ageInTicks, 1f);
+            this.animate(entity.floatIdleAnimationState, GooseAnimations.GOOSE_FLOAT_IDLE, ageInTicks, 1f);
+            this.animate(entity.floatAttackAnimationState, GooseAnimations.GOOSE_FLOAT_ATTACK, ageInTicks, 1f);
         }
-        this.animate(entity.floatIdleAnimationState, GooseAnimations.GOOSE_FLOAT_IDLE, ageInTicks, 1f);
-        this.animate(entity.floatAttackAnimationState, GooseAnimations.GOOSE_FLOAT_ATTACK, ageInTicks, 1f);
     }
 
     private void applyHeadRotation(float headYaw, float headPitch) {
