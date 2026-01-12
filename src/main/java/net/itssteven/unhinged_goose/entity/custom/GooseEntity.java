@@ -229,7 +229,7 @@ public class GooseEntity extends Animal {
         boolean flag = target.hurt(this.damageSources().mobAttack(this), damage);
 
         if (flag) {
-            this.playSound(ModSounds.GOOSE_HURT.get(), 1.0F, 1.0F);
+            this.playSound(ModSounds.GOOSE_ATTACK.get(), 1.0F, 1.0F);
             this.level().broadcastEntityEvent(this, (byte) 4);
         }
         return flag;

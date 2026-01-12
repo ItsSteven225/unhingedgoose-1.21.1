@@ -12,6 +12,9 @@ public class ModSounds {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS =
             DeferredRegister.create(Registries.SOUND_EVENT, UnhingedGoose.MOD_ID);
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> GOOSE_ATTACK =
+            registerSound("entity.goose.attack");
+
     public static final DeferredHolder<SoundEvent, SoundEvent> GOOSE_IDLE =
             registerSound("entity.goose.idle");
 
