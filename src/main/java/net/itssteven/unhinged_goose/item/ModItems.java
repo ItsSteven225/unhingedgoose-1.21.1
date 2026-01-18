@@ -25,6 +25,9 @@ public class ModItems {
 
     public static final DeferredItem<Item> GOOSE_SPAWN_EGG = ITEMS.register("goose_spawn_egg",
             () -> new DeferredSpawnEggItem(ModEntities.GOOSE, 0xFFECECEC, 0xFFF29F05, new Item.Properties()));
+
+    public static final DeferredItem<Item> NETHER_GOOSE_SPAWN_EGG = ITEMS.register("nether_goose_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.NETHER_GOOSE, 0xFFECECEC, 0x990000, new Item.Properties()));
     //some bullshit
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

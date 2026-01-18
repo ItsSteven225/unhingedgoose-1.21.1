@@ -1,0 +1,20 @@
+{
+  "item.unhingedgoose.goose_bone": "Hueso de Ganso",
+  "item.unhingedgoose.goose_wings": "Alitas de Ganso",
+  "item.unhingedgoose.cooked_goose_wings": "Alitas de Ganso Cocinadas",
+  "item.unhingedgoose.nether_goose": "Ganso del Nether",
+
+  "item.unhingedgoose.goose_spawn_egg": "Huevo de Generador de Ganso",
+  "item.unhingedgoose.nether_goose_spawn_egg": "Huevo de Generador de Ganso del nether",
+
+  "block.unhingedgoose.nether_goose_head": "Cabeza de Ganso del Nether",
+
+  "entity.unhingedgoose.goose": "Ganso",
+  "goose.subtitle.idle": "Graznido de Ganso",
+  "goose.subtitle.hurt": "Ganso Dañandose",
+  "goose.subtitle.death": "Ganso Muriendo",
+  "goose.subtitle.attack": "Goose Atacando",
+  "goose.subtitle.alert": "Goose Alertando",
+
+  "effect.unhingedgoose.infernal_molt": "Muda Infernal"
+}

@@ -23,7 +23,7 @@ public class ModEntities {
     public static final Supplier<EntityType<NetherGooseEntity>> NETHER_GOOSE =
             ENTITY_TYPES.register("nether_goose",
                     () -> EntityType.Builder.of(NetherGooseEntity::new, MobCategory.CREATURE)
-                            .sized(1.125F, 2.5625F).build("nether_goose"));
+                            .sized(1.25F, 1.69F).build("nether_goose"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

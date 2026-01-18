@@ -1,0 +1,20 @@
+{
+  "item.unhingedgoose.goose_bone": "Huesitos del Ganso",
+  "item.unhingedgoose.goose_wings": "Aletones del ganso alv",
+  "item.unhingedgoose.cooked_goose_wings": "Alitas de Ganso a la parrilla",
+  "item.unhingedgoose.nether_goose": "Cadaver",
+
+  "item.unhingedgoose.goose_spawn_egg": "Huevos del ganso",
+  "item.unhingedgoose.nether_goose_spawn_egg": "Huevos del ganso con calor",
+
+  "block.unhingedgoose.nether_goose_head": "Cabeza del Gansete",
+
+  "entity.unhingedgoose.goose": "Ganso",
+  "goose.subtitle.idle": "Graznido de Ganso",
+  "goose.subtitle.hurt": "Ganso golpiado",
+  "goose.subtitle.death": "Ganso Muertado",
+  "goose.subtitle.attack": "Goose Ataquiando",
+  "goose.subtitle.alert": "Goose Alertiando",
+
+  "effect.unhingedgoose.infernal_molt": "Cosa del Coso"
+}

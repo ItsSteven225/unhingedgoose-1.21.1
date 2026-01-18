@@ -3,15 +3,17 @@
   "item.unhingedgoose.goose_wings": "Goose Wings",
   "item.unhingedgoose.cooked_goose_wings": "Cooked Goose Wings",
   "item.unhingedgoose.nether_goose": "Nether Goose",
-  "item.unhingedgoose.goose_spawn_egg": "Goose Spawn Egg",
 
-  "creativetab.unhingedgoose.unhingedggoose_items": "Unhinged Goose Items",
+  "item.unhingedgoose.goose_spawn_egg": "Goose Spawn Egg",
+  "item.unhingedgoose.nether_goose_spawn_egg": "Nether Goose Spawn Egg",
+
+  "creativetab.unhingedgoose.unhingedgoose_items": "Unhinged Goose Items",
 
   "block.unhingedgoose.nether_goose_head": "Nether Goose Head",
 
   "entity.unhingedgoose.goose": "Goose",
-  "goose.subtitle.idle": "Goose Idle",
-  "goose.subtitle.hurt": "Goose HurtS",
+  "goose.subtitle.idle": "Goose Honk",
+  "goose.subtitle.hurt": "Goose Hurts",
   "goose.subtitle.death": "Goose Dies",
   "goose.subtitle.attack": "Goose Attacks",
   "goose.subtitle.alert": "Goose Alerts",

@@ -17,7 +17,7 @@ public class ModCreativeTab {
     //tabs
     public static final Supplier<CreativeModeTab> UNHINGEDGOOSE_ITEMS_TAB =CREATIVE_MODE_TAB.register("unhingedgoose_items_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.NETHER_GOOSE_HEAD.get()))
-                    .title(Component.translatable("creativetab.unhingedgoose.unhingedggoose_items"))
+                    .title(Component.translatable("creativetab.unhingedgoose.unhingedgoose_items"))
                     .displayItems((itemDisplayParameters, output) -> {
                         //items
                         output.accept(ModItems.GOOSE_WINGS);
@@ -26,6 +26,9 @@ public class ModCreativeTab {
                         output.accept(ModItems.NETHER_GOOSE);
                         output.accept(ModBlocks.NETHER_GOOSE_HEAD);
                         output.accept(ModItems.GOOSE_SPAWN_EGG);
+                        output.accept(ModItems.NETHER_GOOSE_SPAWN_EGG);
+
+
                         //shit
                     }).build());
     //bullshit
