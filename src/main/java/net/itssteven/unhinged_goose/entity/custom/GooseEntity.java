@@ -1,33 +1,35 @@
 package net.itssteven.unhinged_goose.entity.custom;
 
+import net.itssteven.unhinged_goose.effect.ModEffects;
 import net.itssteven.unhinged_goose.entity.GooseVariant;
 import net.itssteven.unhinged_goose.entity.ModEntities;
+import net.itssteven.unhinged_goose.entity.NetherGooseVariant;
 import net.itssteven.unhinged_goose.sound.ModSounds;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -42,19 +44,33 @@ public class GooseEntity extends Animal {
     private void transformIntoNetherGoose() {
         if (!(this.level() instanceof ServerLevel level)) return;
 
-        Pig pig = EntityType.PIG.create(level);
-        if (pig == null) return;
+        NetherGooseEntity netherGoose = ModEntities.NETHER_GOOSE.get().create(level);
 
-        pig.moveTo(
-                this.getX(),
-                this.getY(),
-                this.getZ(),
-                this.getYRot(),
-                this.getXRot()
-        );
+        if (netherGoose != null) {
 
-        level.addFreshEntity(pig);
-        this.discard();
+            int currentVariantId = this.getVariant().getId();
+
+            netherGoose.setVariant(NetherGooseVariant.byId(currentVariantId));
+
+            netherGoose.moveTo(
+                    this.getX(),
+                    this.getY(),
+                    this.getZ(),
+                    this.getYRot(),
+                    this.getXRot()
+            );
+
+            if (this.hasCustomName()) {
+                netherGoose.setCustomName(this.getCustomName());
+                netherGoose.setCustomNameVisible(this.isCustomNameVisible());
+            }
+
+            level.sendParticles(ParticleTypes.FLAME, this.getX(), this.getY() + 0.5, this.getZ(), 20, 0.2, 0.2, 0.2, 0.05);
+            level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ZOMBIE_VILLAGER_CONVERTED, SoundSource.NEUTRAL, 1.0F, 1.0F);
+
+            level.addFreshEntity(netherGoose);
+            this.discard();
+        }
     }
 
 
@@ -171,7 +187,7 @@ public class GooseEntity extends Animal {
 
 
         boolean inNether = this.level().dimension() == Level.NETHER;
-        boolean hasEffect = this.hasEffect(MobEffects.FIRE_RESISTANCE);
+        boolean hasEffect = this.hasEffect(ModEffects.INFERNAL_MOLT);
         if (inNether && hadEffectBefore && !hasEffect) {
             transformIntoNetherGoose();
         }

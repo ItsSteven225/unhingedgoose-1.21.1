@@ -9,5 +9,12 @@
 
   "block.unhingedgoose.nether_goose_head": "Nether Goose Head",
 
-  "entity.unhingedgoose.goose": "Goose"
+  "entity.unhingedgoose.goose": "Goose",
+  "goose.subtitle.idle": "Goose Idle",
+  "goose.subtitle.hurt": "Goose HurtS",
+  "goose.subtitle.death": "Goose Dies",
+  "goose.subtitle.attack": "Goose Attacks",
+  "goose.subtitle.alert": "Goose Alerts",
+
+  "effect.unhingedgoose.infernal_molt": "Infernal Molt"
 }

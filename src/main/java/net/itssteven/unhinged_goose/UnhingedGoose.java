@@ -1,6 +1,7 @@
 package net.itssteven.unhinged_goose;
 
 import net.itssteven.unhinged_goose.block.ModBlocks;
+import net.itssteven.unhinged_goose.effect.ModEffects;
 import net.itssteven.unhinged_goose.entity.ModEntities;
 import net.itssteven.unhinged_goose.item.ModCreativeTab;
 import net.itssteven.unhinged_goose.item.ModFoodProperties;
@@ -30,7 +31,6 @@ public class UnhingedGoose {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public UnhingedGoose(IEventBus modEventBus, ModContainer modContainer) {
-        // Register the commonSetup method for modloading
 
         modEventBus.addListener(this::commonSetup);
 
@@ -41,6 +41,7 @@ public class UnhingedGoose {
         ModBlocks.register(modEventBus);
         ModEntities.register(modEventBus);
         ModSounds.register(modEventBus);
+        ModEffects.register(modEventBus);
 
 
         modEventBus.addListener(this::addCreative);

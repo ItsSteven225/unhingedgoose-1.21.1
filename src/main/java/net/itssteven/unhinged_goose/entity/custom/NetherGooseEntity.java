@@ -252,7 +252,7 @@ public class NetherGooseEntity extends TamableAnimal {
         return NetherGooseVariant.byId(this.getTypeVariant() & 255);
     }
 
-    private void setVariant(NetherGooseVariant variant) {
+    public void setVariant(NetherGooseVariant variant) {
         this.entityData.set(VARIANT, variant.getId() & 255);
     }
 
