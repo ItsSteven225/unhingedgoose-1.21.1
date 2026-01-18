@@ -1,0 +1,15 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": [
+    "minecraft:plains",
+    "minecraft:beach",
+    "minecraft:cherry_grove",
+    "minecraft:snowy_beach"
+  ],
+  "spawners": {
+    "type": "unhingedgoose:goose",
+    "maxCount": 5,
+    "minCount": 1,
+    "weight": 12
+  }
+}

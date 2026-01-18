@@ -11,7 +11,6 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 
 public class GooseModel<T extends GooseEntity> extends HierarchicalModel<T> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -83,11 +82,12 @@ public class GooseModel<T extends GooseEntity> extends HierarchicalModel<T> {
 
         this.animate(entity.flyAnimationState, GooseAnimations.GOOSE_FLAP, ageInTicks, 1F);
 
-        this.animate(entity.attackAnimationState, GooseAnimations.GOOSE_ATTACK, ageInTicks, 1f);
+        this.animate(entity.attackAnimationState, GooseAnimations.GOOSE_ATTACK, 1F);
 
         if (!inWater) {
             this.animateWalk(GooseAnimations.GOOSE_WALK, limbSwing, limbSwingAmount, 2f, 2.5f);
         }
+
 
         if (inWater) {
 

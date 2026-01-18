@@ -4,6 +4,7 @@ import net.itssteven.unhinged_goose.entity.GooseVariant;
 import net.itssteven.unhinged_goose.entity.ModEntities;
 import net.itssteven.unhinged_goose.sound.ModSounds;
 import net.minecraft.Util;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -12,7 +13,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -20,17 +20,19 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.UUID;
 
 public class GooseEntity extends Animal {
@@ -60,6 +62,9 @@ public class GooseEntity extends Animal {
 
     private int warningSoundCount = 0;
     private int warningTickTimer = 0;
+
+    private UUID hatedPlayerUUID = null;
+    private int hatredLevel = 0;
 
     public boolean isParentOf(GooseEntity baby) {
         return baby.parentUUID != null && baby.parentUUID.equals(this.getUUID());
@@ -202,6 +207,39 @@ public class GooseEntity extends Animal {
             }
         }
 
+        if (!this.level().isClientSide && !this.isBaby()) {
+            List<GooseEntity> babies = this.level().getEntitiesOfClass(
+                    GooseEntity.class,
+                    this.getBoundingBox().inflate(8.0F),
+                    gooseEntity -> gooseEntity.isBaby()
+            );
+
+            for (GooseEntity baby : babies) {
+                LivingEntity attacker = baby.getLastHurtByMob();
+
+                if (attacker instanceof Player player) {
+                    this.setTarget(player);
+                    this.setAggressive(true);
+
+                    warningSoundCount = 0;
+                    warningTickTimer = 0;
+                    return;
+                }
+            }
+        }
+
+        if (!this.level().isClientSide && this.hatedPlayerUUID != null && this.getTarget() == null) {
+            Player player = this.level().getPlayerByUUID(this.hatedPlayerUUID);
+
+            if (player != null) {
+                this.setTarget(player);
+
+                if (this.hatredLevel >= 2) {
+                    this.setAggressive(true);
+                }
+            }
+        }
+
         this.setupAnimationState();
     }
     @Override
@@ -307,6 +345,11 @@ public class GooseEntity extends Animal {
         if (this.parentUUID != null) {
             compound.putUUID("ParentUUID", this.parentUUID);
         }
+
+        if (hatedPlayerUUID != null) {
+            compound.putUUID("HatedPlayer", hatedPlayerUUID);
+            compound.putInt("HatredLevel", hatredLevel);
+        }
     }
 
     @Override
@@ -317,6 +360,11 @@ public class GooseEntity extends Animal {
         if (compound.hasUUID("ParentUUID")) {
             this.parentUUID = compound.getUUID("ParentUUID");
         }
+
+        if (compound.hasUUID("HatedPlayer")) {
+            this.hatedPlayerUUID = compound.getUUID("HatedPlayer");
+            this.hatredLevel = compound.getInt("HatredLevel");
+        }
     }
 
     @Override
@@ -324,6 +372,17 @@ public class GooseEntity extends Animal {
                                         MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
         GooseVariant variant = Util.getRandom(GooseVariant.values(), this.random);
         this.setVariant(variant);
+
+        if (level instanceof ServerLevel serverLevel) {
+            Holder<Biome> biome = serverLevel.getBiome(this.blockPosition());
+
+            if (biome.is(Biomes.SNOWY_BEACH) || biome.is(Biomes.CHERRY_GROVE)) {
+                this.setVariant(GooseVariant.BLACK);
+            } else {
+                GooseVariant variant1 = Util.getRandom(GooseVariant.values(), this.random);
+                this.setVariant(variant1);
+            }
+        }
         return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
     }
 
@@ -349,5 +408,32 @@ public class GooseEntity extends Animal {
             return true;
         }
         return super.canAttack(target);
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (source.getEntity() instanceof Player player) {
+            GooseEntity parent = this;
+            if (parent != null) {
+                parent.hatedPlayerUUID = player.getUUID();
+                parent.hatredLevel = Math.max(parent.hatredLevel, 2);
+                parent.setTarget(player);
+                parent.setAggressive(true);
+            }
+        }
+        return super.hurt(source, amount);
+    }
+    @Override
+    public void die(DamageSource source) {
+        if (source.getEntity() instanceof Player player) {
+            GooseEntity parent = this;
+            if (parent != null) {
+                parent.hatedPlayerUUID = player.getUUID();
+                parent.hatredLevel = 3;
+                parent.setTarget(player);
+                parent.setAggressive(true);
+            }
+        }
+        super.die(source);
     }
 }
