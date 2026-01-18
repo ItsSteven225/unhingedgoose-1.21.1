@@ -3,13 +3,16 @@
   "biomes": [
     "minecraft:plains",
     "minecraft:beach",
+    "minecraft:snowy_plains",
+    "minecraft:river",
+    "minecraft:frozen_river",
     "minecraft:cherry_grove",
     "minecraft:snowy_beach"
   ],
   "spawners": {
     "type": "unhingedgoose:goose",
-    "maxCount": 5,
-    "minCount": 1,
+    "maxCount": 7,
+    "minCount": 2,
     "weight": 12
   }
 }

@@ -373,14 +373,22 @@ public class GooseEntity extends Animal {
         GooseVariant variant = Util.getRandom(GooseVariant.values(), this.random);
         this.setVariant(variant);
 
-        if (level instanceof ServerLevel serverLevel) {
-            Holder<Biome> biome = serverLevel.getBiome(this.blockPosition());
+        if (spawnType == MobSpawnType.NATURAL) {
+            if (this.random.nextFloat() < 0.3F) {
+                this.setBaby(true);
+            }
+        }
 
-            if (biome.is(Biomes.SNOWY_BEACH) || biome.is(Biomes.CHERRY_GROVE)) {
-                this.setVariant(GooseVariant.BLACK);
+        if (level instanceof ServerLevel serverLevel) {
+            Holder<Biome> biomeHolder = serverLevel.getBiome(this.blockPosition());
+            Biome biome = biomeHolder.value();
+
+            float temp = biome.getBaseTemperature();
+
+            if (temp <= 0.15F) {
+                this.setVariant(GooseVariant.WHITE);
             } else {
-                GooseVariant variant1 = Util.getRandom(GooseVariant.values(), this.random);
-                this.setVariant(variant1);
+                this.setVariant(GooseVariant.BLACK);
             }
         }
         return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
