@@ -4,6 +4,10 @@
   "item.unhingedgoose.cooked_goose_wings": "Cooked Goose Wings",
   "item.unhingedgoose.nether_goose": "Nether Goose",
 
+  "item.minecraft.potion.effect.infernal_molt_potion": "Infernal Molt Potion",
+  "item.minecraft.splash_potion.effect.infernal_molt_potion": "Infernal Molt Splash Potion",
+  "item.minecraft.lingering_potion.effect.infernal_molt_potion": "Infernal Molt Lingering Potion",
+
   "item.unhingedgoose.goose_spawn_egg": "Goose Spawn Egg",
   "item.unhingedgoose.nether_goose_spawn_egg": "Nether Goose Spawn Egg",
 
