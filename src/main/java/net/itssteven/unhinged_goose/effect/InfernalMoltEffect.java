@@ -2,6 +2,7 @@ package net.itssteven.unhinged_goose.effect;
 
 import net.itssteven.unhinged_goose.entity.ModEntities;
 import net.itssteven.unhinged_goose.entity.custom.GooseEntity;
+import net.itssteven.unhinged_goose.entity.custom.NetherGooseEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -39,6 +40,7 @@ public class InfernalMoltEffect extends MobEffect {
 
     private void spawnGooseEffect(LivingEntity entity) {
         if (entity instanceof GooseEntity) return;
+        if (entity instanceof NetherGooseEntity) return;
 
         if (entity.level() instanceof ServerLevel level) {
             GooseEntity goose = ModEntities.GOOSE.get().create(level);
